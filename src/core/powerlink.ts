@@ -1,3 +1,4 @@
+ /* eslint-disable */ 
 import axios from "axios";
 
 let lastId = "";
@@ -40,8 +41,6 @@ export async function powerlink(
         timeout: 4000,
       }
     );
-
-    console.log(result.data.data.Data);
 
     lastId = campaignId;
     lastAmbs = ambsId;
