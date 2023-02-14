@@ -1,8 +1,78 @@
-import { type NextPage } from "next";
+import {
+  InferGetServerSidePropsType,
+  NextApiResponse,
+  type NextPage,
+} from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
+import Select from "react-select";
+import { powerlink } from "../core/powerlink";
 
-const Home: NextPage = () => {
+type Data = {
+  ambs: Array<{ value: string; label: string }>;
+  campaign: string;
+  amb: string | null;
+};
+
+export const getServerSideProps = async ({
+  res,
+  query,
+}: {
+  res: NextApiResponse;
+  query: Record<string, string>;
+}) => {
+  const data: Data = {
+    amb: query.amb ?? null,
+    campaign: query.id ?? "177b5cd5-2a69-4933-992e-1dd3599eb77e",
+    ambs: await powerlink(
+      query.id ?? "177b5cd5-2a69-4933-992e-1dd3599eb77e",
+      query.amb
+    ),
+  };
+  return { props: { data } };
+};
+
+const Home = ({
+  data,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [amb, setAmb] = useState<string | undefined>();
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [anonymous, setAnonymous] = useState(false);
+  const [dedication, setDedication] = useState("");
+  const [amount, setAmount] = useState(1);
+
+  const onSubmitEv = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    /**
+     *  campaign
+     *  amb
+     *  fullName
+     *  email
+     *  phoneNumber
+     *  anonymous
+     *  dedication
+     */
+
+    window.location.href = `https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
+      data.campaign
+    }&custom_field_02=${amb}&custom_field_03=${encodeURIComponent(
+      fullName
+    )}&custom_field_04=${encodeURIComponent(
+      email
+    )}&custom_field_05=${encodeURIComponent(
+      phoneNumber
+    )}&custom_field_06=${encodeURIComponent(
+      anonymous
+    )}&custom_field_07=${encodeURIComponent(
+      dedication
+    )}&NotifyURL=https://hook.eu1.make.com/ydyx12ru31txv5b82aw6w1c91eeadtcy
+    `;
+  };
+
   return (
     <>
       <Head>
@@ -13,12 +83,27 @@ const Home: NextPage = () => {
       <form
         dir="rtl"
         id="donation-form"
-        action="/api/create-subscription"
-        method="post"
         className="rounded-lg bg-white p-6"
+        onSubmit={onSubmitEv}
       >
         <h2 className="mb-4 text-lg font-medium">טופס תרומה</h2>
-      
+
+        <div className="mb-4">
+          <label className="mb-2 block font-medium text-gray-700">שגריר</label>
+          {data.amb ? (
+            <>
+              <input
+                value={data.ambs[0]?.label}
+                readOnly
+                className="w-full rounded-lg border border-gray-400 p-2"
+              />
+              <input name="amb" value={data.ambs[0]?.value} hidden readOnly />
+            </>
+          ) : (
+            <Select options={data.ambs} onChange={(v) => setAmb(v?.value)} />
+          )}
+        </div>
+
         <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">
             שם מלא <span className="text-red-700">*</span>
@@ -27,8 +112,24 @@ const Home: NextPage = () => {
             required
             className="w-full rounded-lg border border-gray-400 p-2"
             type="text"
+            onChange={(ev) => setFullName(ev.target.value)}
             name="full_name"
           />
+        </div>
+
+        <div className="mb-4">
+          <label className="mb-2 block font-medium text-gray-700">סכום</label>
+          <div className="flex">
+            <input
+              className="w-full rounded-r-lg border border-gray-400 p-2"
+              type="number"
+              name="amount"
+              min={1}
+              onChange={(e) => setAmount(parseInt(e.target.value))}
+              placeholder="כתוב את הסכום של התרומה"
+              required
+            />
+          </div>
         </div>
 
         <div className="mb-4">
@@ -39,6 +140,7 @@ const Home: NextPage = () => {
             className="w-full rounded-lg border border-gray-400 p-2"
             type="email"
             name="email"
+            onChange={(ev) => setEmail(ev.target.value)}
             placeholder="כתוב את כתובת הדואר האלקטרוני שלך"
           />
         </div>
@@ -50,15 +152,17 @@ const Home: NextPage = () => {
           <input
             className="w-full rounded-lg border border-gray-400 p-2"
             type="tel"
+            onChange={(ev) => setPhoneNumber(ev.target.value)}
             name="phone"
             placeholder="כתוב את מספר הטלפון הנייד שלך"
           />
         </div>
-
         <div className="mb-4 flex justify-start">
           <input
             className=" rounded-lg border border-gray-400"
             type="checkbox"
+            defaultChecked={anonymous}
+            onChange={() => setAnonymous((prev) => !prev)}
             name="anonymous"
           />
           <label className="mx-2 block font-medium text-gray-700">
@@ -71,8 +175,13 @@ const Home: NextPage = () => {
           <textarea
             className="h-36 w-full rounded-lg border border-gray-400 p-2"
             name="dedication"
+            onChange={(ev) => setDedication(ev.target.value)}
           />
         </div>
+
+        <button className="w-full rounded-lg bg-indigo-500 py-2 px-4 text-white hover:bg-indigo-600">
+          תרום
+        </button>
       </form>
     </>
   );
