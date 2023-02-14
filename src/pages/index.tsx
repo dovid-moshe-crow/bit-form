@@ -1,10 +1,6 @@
-import {
-  InferGetServerSidePropsType,
-  NextApiResponse,
-  type NextPage,
-} from "next";
+import type { InferGetServerSidePropsType, NextApiResponse } from "next";
 import Head from "next/head";
-import Link from "next/link";
+
 import { useState } from "react";
 import Select from "react-select";
 import { powerlink } from "../core/powerlink";
