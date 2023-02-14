@@ -12,7 +12,6 @@ type Data = {
 };
 
 export const getServerSideProps = async ({
-  res,
   query,
 }: {
   res: NextApiResponse;
