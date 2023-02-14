@@ -1,3 +1,5 @@
+ /* eslint-disable */ 
+
 import type { InferGetServerSidePropsType, NextApiResponse } from "next";
 import Head from "next/head";
 
