@@ -31,7 +31,7 @@ export const getServerSideProps = async ({
 const Home = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [amb, setAmb] = useState<string | undefined>();
+  const [amb, setAmb] = useState<string>();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
