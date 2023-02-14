@@ -1,4 +1,4 @@
- /* eslint-disable */ 
+/* eslint-disable */
 
 import type { InferGetServerSidePropsType, NextApiResponse } from "next";
 import Head from "next/head";
@@ -34,9 +34,9 @@ const Home = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [amb, setAmb] = useState<string>();
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  //const [fullName, setFullName] = useState("");
+  //const [email, setEmail] = useState("");
+  //const [phoneNumber, setPhoneNumber] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [dedication, setDedication] = useState("");
   const [amount, setAmount] = useState(1);
@@ -54,15 +54,17 @@ const Home = ({
      *  dedication
      */
 
+    // &custom_field_03=${encodeURIComponent(
+    //   fullName
+    // )}&custom_field_04=${encodeURIComponent(
+    //   email
+    // )}&custom_field_05=${encodeURIComponent(
+    //   phoneNumber
+    // )}
+
     window.location.href = `https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
       data.campaign
-    }&custom_field_02=${amb}&custom_field_03=${encodeURIComponent(
-      fullName
-    )}&custom_field_04=${encodeURIComponent(
-      email
-    )}&custom_field_05=${encodeURIComponent(
-      phoneNumber
-    )}&custom_field_06=${encodeURIComponent(
+    }&custom_field_02=${amb}&custom_field_06=${encodeURIComponent(
       anonymous
     )}&custom_field_07=${encodeURIComponent(
       dedication
@@ -101,7 +103,7 @@ const Home = ({
           )}
         </div>
 
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">
             שם מלא <span className="text-red-700">*</span>
           </label>
@@ -112,7 +114,7 @@ const Home = ({
             onChange={(ev) => setFullName(ev.target.value)}
             name="full_name"
           />
-        </div>
+        </div> */}
 
         <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">סכום</label>
@@ -128,7 +130,7 @@ const Home = ({
             />
           </div>
         </div>
-
+{/* 
         <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">
             דואר אלקטרוני
@@ -140,9 +142,9 @@ const Home = ({
             onChange={(ev) => setEmail(ev.target.value)}
             placeholder="כתוב את כתובת הדואר האלקטרוני שלך"
           />
-        </div>
+        </div> */}
 
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">
             טלפון נייד
           </label>
@@ -153,7 +155,7 @@ const Home = ({
             name="phone"
             placeholder="כתוב את מספר הטלפון הנייד שלך"
           />
-        </div>
+        </div> */}
         <div className="mb-4 flex justify-start">
           <input
             className=" rounded-lg border border-gray-400"
@@ -177,7 +179,7 @@ const Home = ({
         </div>
 
         <button className="w-full rounded-lg bg-indigo-500 py-2 px-4 text-white hover:bg-indigo-600">
-          תרום
+          המשך
         </button>
       </form>
     </>
