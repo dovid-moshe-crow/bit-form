@@ -1,4 +1,4 @@
-/* eslint-disable */
+ /* eslint-disable */ 
 
 import type { InferGetServerSidePropsType, NextApiResponse } from "next";
 import Head from "next/head";
@@ -34,9 +34,9 @@ const Home = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [amb, setAmb] = useState<string>();
-  //const [fullName, setFullName] = useState("");
-  //const [email, setEmail] = useState("");
-  //const [phoneNumber, setPhoneNumber] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [dedication, setDedication] = useState("");
   const [amount, setAmount] = useState(1);
@@ -54,17 +54,15 @@ const Home = ({
      *  dedication
      */
 
-    // &custom_field_03=${encodeURIComponent(
-    //   fullName
-    // )}&custom_field_04=${encodeURIComponent(
-    //   email
-    // )}&custom_field_05=${encodeURIComponent(
-    //   phoneNumber
-    // )}
-
     window.location.href = `https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
       data.campaign
-    }&custom_field_02=${amb}&custom_field_06=${encodeURIComponent(
+    }&custom_field_02=${amb}&subscribers_name=${encodeURIComponent(
+      fullName
+    )}&subscribers_email=${encodeURIComponent(
+      email
+    )}&subscribers_phone=${encodeURIComponent(
+      phoneNumber
+    )}&custom_field_06=${encodeURIComponent(
       anonymous
     )}&custom_field_07=${encodeURIComponent(
       dedication
@@ -103,18 +101,19 @@ const Home = ({
           )}
         </div>
 
-        {/* <div className="mb-4">
+        <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">
             שם מלא <span className="text-red-700">*</span>
           </label>
           <input
             required
+            value={fullName}
             className="w-full rounded-lg border border-gray-400 p-2"
             type="text"
             onChange={(ev) => setFullName(ev.target.value)}
             name="full_name"
           />
-        </div> */}
+        </div>
 
         <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">סכום</label>
@@ -124,13 +123,14 @@ const Home = ({
               type="number"
               name="amount"
               min={1}
+              value={amount}
               onChange={(e) => setAmount(parseInt(e.target.value))}
               placeholder="כתוב את הסכום של התרומה"
               required
             />
           </div>
         </div>
-{/* 
+
         <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">
             דואר אלקטרוני
@@ -139,23 +139,25 @@ const Home = ({
             className="w-full rounded-lg border border-gray-400 p-2"
             type="email"
             name="email"
+            value={email}
             onChange={(ev) => setEmail(ev.target.value)}
             placeholder="כתוב את כתובת הדואר האלקטרוני שלך"
           />
-        </div> */}
+        </div>
 
-        {/* <div className="mb-4">
+        <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">
             טלפון נייד
           </label>
           <input
             className="w-full rounded-lg border border-gray-400 p-2"
             type="tel"
+            value={phoneNumber}
             onChange={(ev) => setPhoneNumber(ev.target.value)}
             name="phone"
             placeholder="כתוב את מספר הטלפון הנייד שלך"
           />
-        </div> */}
+        </div>
         <div className="mb-4 flex justify-start">
           <input
             className=" rounded-lg border border-gray-400"
@@ -174,12 +176,13 @@ const Home = ({
           <textarea
             className="h-36 w-full rounded-lg border border-gray-400 p-2"
             name="dedication"
+            value={dedication}
             onChange={(ev) => setDedication(ev.target.value)}
           />
         </div>
 
         <button className="w-full rounded-lg bg-indigo-500 py-2 px-4 text-white hover:bg-indigo-600">
-          המשך
+          תרום
         </button>
       </form>
     </>
