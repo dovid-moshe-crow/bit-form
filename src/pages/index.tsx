@@ -53,9 +53,8 @@ const Home = ({
      *  anonymous
      *  dedication
      */
-    //https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA
-
-    window.location.href = `https://v.cardcom.solutions/EA5/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
+    //
+    window.location.href = `https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
       data.campaign
     }&custom_field_02=${amb}&subscribers_name=${encodeURIComponent(
       fullName
