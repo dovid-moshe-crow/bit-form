@@ -173,7 +173,7 @@ const Home = ({
             value={address}
             onChange={(ev) => setAddress(ev.target.value)}
             name="address"
-            placeholder="כתוב את מספר הטלפון הנייד שלך"
+            placeholder=""
           />
         </div>
 
