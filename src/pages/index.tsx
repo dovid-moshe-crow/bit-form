@@ -57,6 +57,7 @@ const Home = ({
           ClientName: fullName,
           Phone: phoneNumber,
           Amount: amount.toString(),
+          Mail: email,
           Tashlumim: "1",
           Currency: "1",
           Comment: dedication,
