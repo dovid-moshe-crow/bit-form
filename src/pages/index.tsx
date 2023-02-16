@@ -33,6 +33,7 @@ export const getServerSideProps = async ({
 const Home = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const mosadId = "7001671";
   const [amb, setAmb] = useState<string>();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -41,8 +42,35 @@ const Home = ({
   const [dedication, setDedication] = useState("");
   const [amount, setAmount] = useState(1);
 
-  const onSubmitEv = (e: React.FormEvent<HTMLFormElement>) => {
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const onSubmitEv = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const res = await fetch(
+      "https://www.matara.pro/nedarimplus/V6/Files/WebServices/DebitBit.aspx?Action=CreateTransaction",
+      {
+        method: "POST",
+        body: new URLSearchParams({
+          Groupe: `${anonymous},${data.campaign},${amb}`,
+          MosadId: mosadId,
+          ClientName: fullName,
+          Phone: phoneNumber,
+          Amount: amount.toString(),
+          Tashlumim: "1",
+          Currency: "1",
+          Comment: dedication,
+        }),
+      }
+    );
+
+    const json = await res.json();
+
+    if (json.Status === "OK") {
+      window.location = json.Message;
+    } else {
+      setErrorMessage(json.Message);
+    }
 
     /**
      *  campaign
@@ -54,20 +82,20 @@ const Home = ({
      *  dedication
      */
     //
-    window.location.href = `https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
-      data.campaign
-    }&custom_field_02=${amb}&subscribers_name=${encodeURIComponent(
-      fullName
-    )}&subscribers_email=${encodeURIComponent(
-      email
-    )}&subscribers_phone=${encodeURIComponent(
-      phoneNumber
-    )}&custom_field_06=${encodeURIComponent(
-      anonymous
-    )}&custom_field_07=${encodeURIComponent(
-      dedication
-    )}&NotifyURL=https://hook.eu1.make.com/ydyx12ru31txv5b82aw6w1c91eeadtcy
-    `;
+    // window.location.href = `https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
+    //   data.campaign
+    // }&custom_field_02=${amb}&subscribers_name=${encodeURIComponent(
+    //   fullName
+    // )}&subscribers_email=${encodeURIComponent(
+    //   email
+    // )}&subscribers_phone=${encodeURIComponent(
+    //   phoneNumber
+    // )}&custom_field_06=${encodeURIComponent(
+    //   anonymous
+    // )}&custom_field_07=${encodeURIComponent(
+    //   dedication
+    // )}&NotifyURL=https://hook.eu1.make.com/ydyx12ru31txv5b82aw6w1c91eeadtcy
+    // `;
   };
 
   return (
@@ -150,6 +178,7 @@ const Home = ({
             טלפון נייד
           </label>
           <input
+            required
             className="w-full rounded-lg border border-gray-400 p-2"
             type="tel"
             value={phoneNumber}
@@ -180,30 +209,12 @@ const Home = ({
             onChange={(ev) => setDedication(ev.target.value)}
           />
         </div>
-{/* 
-        <iframe
-          className="rounded-lg h-16 w-full"
-        
-          src={`https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
-            data.campaign
-          }&custom_field_02=${amb}&subscribers_name=${encodeURIComponent(
-            fullName
-          )}&subscribers_email=${encodeURIComponent(
-            email
-          )}&subscribers_phone=${encodeURIComponent(
-            phoneNumber
-          )}&custom_field_06=${encodeURIComponent(
-            anonymous
-          )}&custom_field_07=${encodeURIComponent(
-            dedication
-          )}&NotifyURL=https://hook.eu1.make.com/ydyx12ru31txv5b82aw6w1c91eeadtcy
-    `}
-        ></iframe> */}
 
-        
         <button className="w-full rounded-lg bg-indigo-500 py-2 px-4 text-white hover:bg-indigo-600">
           תרום
         </button>
+
+        <label className="text-red-800" >{errorMessage}</label>
       </form>
     </>
   );
