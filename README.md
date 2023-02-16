@@ -6,4 +6,4 @@
 * `amb` - the ambassador id
 
 
-the `Groupe` field is of the format `"{anonymous},${campaign id},{ambassador id}"`,
+the `Groupe` field is of the format `"{anonymous},{campaign id},{ambassador id}"`,
