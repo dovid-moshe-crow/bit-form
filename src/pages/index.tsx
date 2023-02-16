@@ -52,7 +52,7 @@ const Home = ({
       {
         method: "POST",
         body: new URLSearchParams({
-          Groupe: `${anonymous},${data.campaign},${amb}`,
+          CallId: `${anonymous},${data.campaign},${amb}`,
           MosadId: mosadId,
           ClientName: fullName,
           Phone: phoneNumber,
