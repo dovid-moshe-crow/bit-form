@@ -38,6 +38,7 @@ const Home = ({
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [dedication, setDedication] = useState("");
   const [amount, setAmount] = useState(1);
@@ -54,6 +55,7 @@ const Home = ({
         body: new URLSearchParams({
           MosadId: mosadId,
           ClientName: fullName,
+          Adresse: address,
           Phone: phoneNumber,
           Amount: amount.toString(),
           Mail: email,
@@ -162,6 +164,19 @@ const Home = ({
             placeholder="כתוב את מספר הטלפון הנייד שלך"
           />
         </div>
+
+        <div className="mb-4">
+          <label className="mb-2 block font-medium text-gray-700">כתובת</label>
+          <input
+            className="w-full rounded-lg border border-gray-400 p-2"
+            type="text"
+            value={address}
+            onChange={(ev) => setAddress(ev.target.value)}
+            name="address"
+            placeholder="כתוב את מספר הטלפון הנייד שלך"
+          />
+        </div>
+
         <div className="mb-4 flex justify-start">
           <input
             className=" rounded-lg border border-gray-400"
