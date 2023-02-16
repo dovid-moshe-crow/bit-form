@@ -1,4 +1,4 @@
- /* eslint-disable */ 
+/* eslint-disable */
 
 import type { InferGetServerSidePropsType, NextApiResponse } from "next";
 import Head from "next/head";
@@ -180,7 +180,27 @@ const Home = ({
             onChange={(ev) => setDedication(ev.target.value)}
           />
         </div>
+{/* 
+        <iframe
+          className="rounded-lg h-16 w-full"
+        
+          src={`https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
+            data.campaign
+          }&custom_field_02=${amb}&subscribers_name=${encodeURIComponent(
+            fullName
+          )}&subscribers_email=${encodeURIComponent(
+            email
+          )}&subscribers_phone=${encodeURIComponent(
+            phoneNumber
+          )}&custom_field_06=${encodeURIComponent(
+            anonymous
+          )}&custom_field_07=${encodeURIComponent(
+            dedication
+          )}&NotifyURL=https://hook.eu1.make.com/ydyx12ru31txv5b82aw6w1c91eeadtcy
+    `}
+        ></iframe> */}
 
+        
         <button className="w-full rounded-lg bg-indigo-500 py-2 px-4 text-white hover:bg-indigo-600">
           תרום
         </button>
