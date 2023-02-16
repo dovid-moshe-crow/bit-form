@@ -52,7 +52,6 @@ const Home = ({
       {
         method: "POST",
         body: new URLSearchParams({
-          CallId: `${anonymous},${data.campaign},${amb}`,
           MosadId: mosadId,
           ClientName: fullName,
           Phone: phoneNumber,
@@ -60,7 +59,7 @@ const Home = ({
           Mail: email,
           Tashlumim: "1",
           Currency: "1",
-          Comment: dedication,
+          Comment: `${anonymous},${data.campaign},${amb},${dedication}`,
         }),
       }
     );
@@ -179,6 +178,7 @@ const Home = ({
         <div className="mb-4">
           <label className="mb-2 block font-medium text-gray-700">הקדשה</label>
           <textarea
+            maxLength={55}
             className="h-36 w-full rounded-lg border border-gray-400 p-2"
             name="dedication"
             value={dedication}
@@ -190,7 +190,7 @@ const Home = ({
           תרום
         </button>
 
-        <label className="text-red-800" >{errorMessage}</label>
+        <label className="text-red-800">{errorMessage}</label>
       </form>
     </>
   );
