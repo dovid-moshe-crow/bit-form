@@ -72,31 +72,6 @@ const Home = ({
     } else {
       setErrorMessage(json.Message);
     }
-
-    /**
-     *  campaign
-     *  amb
-     *  fullName
-     *  email
-     *  phoneNumber
-     *  anonymous
-     *  dedication
-     */
-    //
-    // window.location.href = `https://secure.cardcom.solutions/e/kRGe0T0JvEyRfy98wAxBxA?sum=${amount}&custom_field_01=${
-    //   data.campaign
-    // }&custom_field_02=${amb}&subscribers_name=${encodeURIComponent(
-    //   fullName
-    // )}&subscribers_email=${encodeURIComponent(
-    //   email
-    // )}&subscribers_phone=${encodeURIComponent(
-    //   phoneNumber
-    // )}&custom_field_06=${encodeURIComponent(
-    //   anonymous
-    // )}&custom_field_07=${encodeURIComponent(
-    //   dedication
-    // )}&NotifyURL=https://hook.eu1.make.com/ydyx12ru31txv5b82aw6w1c91eeadtcy
-    // `;
   };
 
   return (
