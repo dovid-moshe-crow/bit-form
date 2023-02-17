@@ -6,4 +6,4 @@
 * `amb` - the ambassador id
 
 
-the `Comment` field is of the format `"{anonymous},{campaign id},{ambassador id},{dedication}"`,
+the `Comment` field is of the format `"~{anonymous}~{campaign id}~{ambassador id}~{dedication}"`,

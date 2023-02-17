@@ -61,7 +61,7 @@ const Home = ({
           Mail: email,
           Tashlumim: "1",
           Currency: "1",
-          Comment: `${anonymous},${data.campaign},${amb},${dedication}`,
+          Comment: `~${anonymous}~${data.campaign}~${amb}~${dedication}`,
         }),
       }
     );
