@@ -33,7 +33,7 @@ export const getServerSideProps = async ({
 const Home = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const mosadId = "7001671";
+  const mosadId = "7001916";
   const [amb, setAmb] = useState<string>();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
