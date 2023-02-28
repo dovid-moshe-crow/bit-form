@@ -1,4 +1,4 @@
- /* eslint-disable */ 
+/* eslint-disable */
 import axios from "axios";
 
 let lastId = "";
@@ -19,10 +19,11 @@ export async function powerlink(
     return lastResult;
   }
   try {
-
-    console.log(`(pcfsystemfield326 = ${campaignId})${
-      ambsId ? " and \n(customobject1020id = " + ambsId : ")"
-    })`)
+    console.log(
+      `(pcfsystemfield326 = ${campaignId})${
+        ambsId ? " and \n(customobject1020id = " + ambsId : ")"
+      })`
+    );
     const result = await axios.post(
       "https://api.powerlink.co.il/api/query",
       {

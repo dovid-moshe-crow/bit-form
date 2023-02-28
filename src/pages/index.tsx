@@ -2,6 +2,7 @@
 
 import type { InferGetServerSidePropsType, NextApiResponse } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import { useState } from "react";
 import Select from "react-select";
@@ -33,7 +34,17 @@ export const getServerSideProps = async ({
 const Home = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const mosadId = "7001916";
+
+  const router = useRouter();
+
+  const {mosadId,apiValid} = router.query;
+
+  if(typeof mosadId != "string" || typeof apiValid != "string")
+    return <div>Invalid Params</div>
+
+  
+
+  //const mosadId = "7001671";
   const [amb, setAmb] = useState<string>();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -53,6 +64,7 @@ const Home = ({
       {
         method: "POST",
         body: new URLSearchParams({
+          ApiValid: apiValid,
           MosadId: mosadId,
           ClientName: fullName,
           Adresse: address,
