@@ -64,6 +64,7 @@ const Home = ({
       {
         method: "POST",
         body: new URLSearchParams({
+          CallBack: "https://yeshivatcy.co.il/",
           ApiValid: apiValid,
           MosadId: mosadId,
           ClientName: fullName,
