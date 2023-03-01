@@ -194,6 +194,8 @@ const Home = ({
           onChange={(e) => setCity(e.target.value)}
         />
         <NumberInput
+          required
+          min={1}
           name="amount"
           label="סכום"
           value={amount}
@@ -201,6 +203,7 @@ const Home = ({
         />
         <Checkbox
           label="תרומה חוזרת"
+          defaultChecked={multiSub}
           checked={multiSub}
           onChange={() => setMultiSub((prev) => !prev)}
         />
@@ -234,6 +237,7 @@ const Home = ({
           name="dedication"
           label="הקדשה"
           value={dedication}
+          maxLength={55}
           onChange={(e) => setDedication(e.target.value)}
         />
 
