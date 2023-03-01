@@ -37,12 +37,12 @@ const Home = ({
 
   const router = useRouter();
 
-  const {mosadId,apiValid} = router.query;
+  const { mosadId, apiValid } = router.query;
 
-  if(typeof mosadId != "string" || typeof apiValid != "string")
+  if (typeof mosadId != "string" || typeof apiValid != "string")
     return <div>Invalid Params</div>
 
-  
+
 
   //const mosadId = "7001671";
   const [amb, setAmb] = useState<string>();
@@ -213,11 +213,10 @@ const Home = ({
             onChange={(ev) => setDedication(ev.target.value)}
           />
         </div>
-
+        
         <button className="w-full rounded-lg bg-indigo-500 py-2 px-4 text-white hover:bg-indigo-600">
           תרום
         </button>
-
         <label className="text-red-800">{errorMessage}</label>
       </form>
     </>
