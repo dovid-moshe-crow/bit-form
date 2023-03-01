@@ -212,7 +212,7 @@ const Home = ({
             defaultValue={payments.toString()}
             value={payments.toString()}
             data={[
-              { value: "0", label: "ללא הגבלה" },
+              { value: "", label: "ללא הגבלה" },
               ...new Array(24)
                 .fill(0)
                 .map((_, i) => ({ label: `${i + 1}`, value: `${i + 1}` })),
