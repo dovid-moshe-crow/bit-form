@@ -1,17 +1,17 @@
 # Bit form
 
 
-### page query params
+### https://bit-form.vercel.app/  query params
 * `id` - the campaign id
 * `amb` - the ambassador id
 * `mosadId`
 * `apiValid`
 
-### /credit query params
+### https://bit-form.vercel.app/nedarim-credit query params
 * `id` - the campaign id
 * `amb` - the ambassador id
-* `Mosad1` - name,apiValid,mosadId
-* `Mosad2` - name,apiValid,mosadId
+* `Mosad1` - *name*,*apiValid*,*mosadId*
+* `Mosad2` - *name*,*apiValid*,*mosadId*
 
 
 
