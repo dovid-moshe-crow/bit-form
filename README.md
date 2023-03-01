@@ -10,8 +10,9 @@
 ### /credit query params
 * `id` - the campaign id
 * `amb` - the ambassador id
-* `Mosad`
-* `ApiValid`
+* `Mosad1` - name,apiValid,mosadId
+* `Mosad2` - name,apiValid,mosadId
+
 
 
 ### params the form sends to nedarim
