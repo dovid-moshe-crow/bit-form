@@ -85,7 +85,7 @@ const Home = ({
         if (e.data.Value.Status == "Error") {
           setErrorMessage(e.data.Value.Message);
         } else {
-          //window.location.href = "https://yeshivatcy.co.il/";
+          window.location.href = "https://yeshivatcy.co.il/";
         }
       }
     };
