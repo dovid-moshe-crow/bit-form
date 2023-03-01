@@ -126,7 +126,7 @@ const Home = ({
           Phone: phoneNumber,
           Param1: `${anonymous},${data.amb ?? amb}`,
           Comment: `${data.campaign}`,
-          Tashlumim: payments,
+          Tashlumim: payments == 0 ? "" : payments,
           Amount: amount,
           Currency: 1,
           PaymentType: payments == 1 ? "Ragil" : "HK",
@@ -212,7 +212,7 @@ const Home = ({
             defaultValue={payments.toString()}
             value={payments.toString()}
             data={[
-              { value: "", label: "ללא הגבלה" },
+              { value: "0", label: "ללא הגבלה" },
               ...new Array(24)
                 .fill(0)
                 .map((_, i) => ({ label: `${i + 1}`, value: `${i + 1}` })),
