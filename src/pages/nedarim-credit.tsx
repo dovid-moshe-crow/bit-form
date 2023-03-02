@@ -12,9 +12,12 @@ import {
   Stack,
   Text,
   Textarea,
+  Container,
   TextInput,
 } from "@mantine/core";
 import { powerlink } from "../core/powerlink";
+import Amount from "../Components/Amount";
+
 
 type Data = {
   ambs: Array<{ value: string; label: string }>;
@@ -43,7 +46,9 @@ const Home = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
 
-  const { Mosad1, Mosad2 } = router.query;
+  const { Mosad1, Mosad2, Multiplier } = router.query;
+
+  const multiplier = parseInt(typeof Multiplier == "string" ? Multiplier : "1");
 
   let paymentOptions: Record<string, { mosadId: string; apiValid: string }> =
     {};
@@ -64,19 +69,10 @@ const Home = ({
     };
   }
 
-  const [mosadName, setMosadName] = useState(Object.keys(paymentOptions)[0]!);
-  const [amb, setAmb] = useState<string | undefined>(data.amb ?? undefined);
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [anonymous, setAnonymous] = useState(false);
-  const [dedication, setDedication] = useState("");
   const [amount, setAmount] = useState(1);
-  const [payments, setPayments] = useState(1);
+  const [currency, setCurrency] = useState("ils");
   const [multiSub, setMultiSub] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState();
 
   useEffect(() => {
     const readPostMessage = (e: MessageEvent<any>) => {
@@ -96,19 +92,35 @@ const Home = ({
     };
   });
 
-  useEffect(() => {
-    if (multiSub) {
-      setPayments(12);
-    } else {
-      setPayments(1);
-    }
-  }, [multiSub]);
-
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submit");
+
+    var formData = new FormData(e.target as any);
+    const formProps = Object.fromEntries(formData);
+
     const nedarim = (document.getElementById("nedarim") as HTMLIFrameElement)
       .contentWindow;
+
+    console.log({
+      Mosad: paymentOptions[formProps.cardType?.toString() ?? ""]?.mosadId,
+      ApiValid: paymentOptions[formProps.cardType?.toString() ?? ""]?.apiValid,
+      Param2: formProps.dedication,
+      Street: formProps.address,
+      FirstName: formProps.full_name,
+      City: formProps.city,
+      Mail: formProps.email,
+      Phone: formProps.phone,
+      Param1: `${formProps.anonymous == "on"},${data.amb ?? formProps.amb}`,
+      Comment: `${data.campaign}`,
+      Tashlumim: formProps.payments == "0" ? "" : formProps.payments,
+      Amount: formProps.amount,
+      Currency: formProps.currency == "ils" ?  1 : 2,
+      PaymentType: formProps.payments == "1" ? "Ragil" : "HK",
+      Zeout: "",
+      LastName: "",
+      Groupe: "",
+      ForceUpdateMatching: "1",
+    });
 
     if (!nedarim) return;
 
@@ -116,20 +128,23 @@ const Home = ({
       {
         Name: "FinishTransaction2",
         Value: {
-          Mosad: paymentOptions[mosadName]?.mosadId,
-          ApiValid: paymentOptions[mosadName]?.apiValid,
-          Param2: dedication,
-          Street: address,
-          FirstName: fullName,
-          City: city,
-          Mail: email,
-          Phone: phoneNumber,
-          Param1: `${anonymous},${data.amb ?? amb}`,
+          Mosad: paymentOptions[formProps.cardType?.toString() ?? ""]?.mosadId,
+          ApiValid:
+            paymentOptions[formProps.cardType?.toString() ?? ""]?.apiValid,
+          Param2: formProps.dedication,
+          Street: formProps.address,
+          FirstName: formProps.full_name,
+          City: formProps.city,
+          Mail: formProps.email,
+          Phone: formProps.phone,
+          Param1: `${formProps.anonymous == "on"},${
+            data.amb ?? formProps.amb
+          },${multiplier}`,
           Comment: `${data.campaign}`,
-          Tashlumim: payments == 0 ? "" : payments,
-          Amount: amount,
+          Tashlumim: formProps.payments == "0" ? "" : formProps.payments,
+          Amount: formProps.amount,
           Currency: 1,
-          PaymentType: payments == 1 ? "Ragil" : "HK",
+          PaymentType: formProps.payments == "1" ? "Ragil" : "HK",
           Zeout: "",
           LastName: "",
           Groupe: "",
@@ -149,58 +164,23 @@ const Home = ({
             <TextInput name="amb" value={data.ambs[0]?.label} readOnly />
           </>
         ) : (
-          <Select
-            label="שגריר"
-            searchable
-            data={data.ambs}
-            onChange={(e) => setAmb(e ?? "")}
-            name="amb"
-          />
+          <Select label="שגריר" searchable data={data.ambs} name="amb" />
         )}
 
-        <TextInput
-          name="full_name"
-          required
-          label="שם מלא"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-        />
-        <TextInput
-          name="email"
-          type="email"
-          label="דואר אלקטרוני"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextInput
-          name="phone"
-          type="tel"
-          label="טלפון נייד"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-        <TextInput
-          name="address"
-          type="text"
-          label="כתובת"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-        <TextInput
-          name="city"
-          type="text"
-          label="עיר"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <NumberInput
-          required
-          min={1}
-          name="amount"
+        <TextInput name="full_name" required label="שם מלא" />
+        <TextInput name="email" type="email" label="דואר אלקטרוני" />
+        <TextInput name="phone" type="tel" label="טלפון נייד" />
+        <TextInput name="address" type="text" label="כתובת" />
+        <TextInput name="city" type="text" label="עיר" />
+        <Amount
+          currency={currency}
+          setCurrency={setCurrency}
           label="סכום"
-          value={amount}
-          onChange={(num) => setAmount(num ?? 1)}
+          multiplier={multiplier}
+          amount={amount}
+          setAmount={setAmount}
         />
+
         <Checkbox
           label="תרומה חוזרת"
           defaultChecked={multiSub}
@@ -210,42 +190,32 @@ const Home = ({
 
         {multiSub ? (
           <Select
-            name="months"
+            name="payments"
             label="מספר תרומות"
-            defaultValue={payments.toString()}
-            value={payments.toString()}
+            defaultValue="12"
             data={[
               { value: "0", label: "ללא הגבלה" },
               ...new Array(24)
                 .fill(0)
                 .map((_, i) => ({ label: `${i + 1}`, value: `${i + 1}` })),
             ]}
-            onChange={(e) => setPayments(parseInt(e ?? "1"))}
           />
         ) : (
-          <TextInput type="hidden" name="months" value={1} />
+          <TextInput type="hidden" name="payments" value={1} />
         )}
 
         <Checkbox
           label="תרומה אנונימית"
           name="anonymous"
-          checked={anonymous}
-          onChange={() => setAnonymous((prev) => !prev)}
+          defaultChecked={false}
         />
 
-        <Textarea
-          name="dedication"
-          label="הקדשה"
-          value={dedication}
-          maxLength={55}
-          onChange={(e) => setDedication(e.target.value)}
-        />
+        <Textarea name="dedication" label="הקדשה" maxLength={55} />
 
         <Select
           label="סוג כרטיס"
-          defaultValue={mosadName}
+          defaultValue={Object.keys(paymentOptions)[0]}
           data={Object.keys(paymentOptions)}
-          onChange={(e) => setMosadName(e ?? "")}
           name="cardType"
         />
 
@@ -255,6 +225,10 @@ const Home = ({
           id="nedarim"
         ></iframe>
 
+        <Container>
+          <Text>תחויב בסכום של</Text>
+        </Container>
+
         <Text color="red">{errorMessage}</Text>
 
         <Button type="submit">תרום</Button>
@@ -263,38 +237,5 @@ const Home = ({
   );
 };
 
-export function CurrencyInput({
-  name,
-  label,
-}: {
-  name: string;
-  label: string;
-}) {
-  const data = [{ value: "ils", label: "🇮🇱 ILS" }];
-  const select = (
-    <NativeSelect
-      data={data}
-      styles={{
-        input: {
-          fontWeight: 500,
-          borderTopLeftRadius: 0,
-          borderBottomLeftRadius: 0,
-        },
-      }}
-    />
-  );
-
-  return (
-    <TextInput
-      type="number"
-      min={1}
-      required
-      name={name}
-      label={label}
-      rightSection={select}
-      rightSectionWidth={92}
-    />
-  );
-}
 
 export default Home;
